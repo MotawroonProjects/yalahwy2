@@ -277,7 +277,7 @@ public interface Service {
 
     );
 
-    @GET("api/user/settings")
+    @GET("api/front/settings")
     Call<SocialSettingsModel> getSocialSetting(
             @Query("name") String name
 

@@ -116,7 +116,7 @@
                         android:gravity="center"
                         android:textStyle="bold"
                         android:singleLine="true"
-                        android:text='@{model.item_price+" "+@string/sar}'
+                        android:text='@{model.item_price+" "}'
                         android:textColor="@color/black"
                         android:textSize="15sp"
 

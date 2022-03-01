@@ -80,7 +80,7 @@
                     android:gravity="center"
                     android:textStyle="bold"
                     android:singleLine="true"
-                    android:text='@{model.current_price+" "+@string/sar}'
+                    android:text='@{model.current_price+" "}'
                     android:textColor="@color/black"
                     android:textSize="18sp"
                     android:layout_marginTop="8dp"

@@ -138,7 +138,7 @@
                             android:layout_weight=".65"
                             android:ellipsize="end"
                             android:maxLines="2"
-                            android:text='@{model.total+" "+@string/sar}'
+                            android:text='@{model.total+" "}'
                             android:textColor="@color/black"
                             android:textSize="18sp"
                             android:textStyle="bold" />

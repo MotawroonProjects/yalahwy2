@@ -110,7 +110,7 @@
                     android:button="@drawable/checkbox_cart_bg"
                     android:paddingStart="8dp"
                     android:paddingEnd="8dp"
-                    android:text='@{@string/fast_delivery+" + "+50+" "+@string/sar+"\n"+@string/in_3_days}'
+                    android:text='@{@string/fast_delivery+" + "+50+" "+"\n"+@string/in_3_days}'
                     android:textSize="15sp" />
 
             </RadioGroup>
@@ -153,7 +153,7 @@
                     android:button="@drawable/checkbox_cart_bg"
                     android:paddingStart="8dp"
                     android:paddingEnd="8dp"
-                    android:text='@{@string/special_packing+" + "+15+" "+@string/sar+"\n"+@string/ready_to_gift_packaging}'
+                    android:text='@{@string/special_packing+" + "+15+" "+"\n"+@string/ready_to_gift_packaging}'
                     android:textSize="15sp" />
 
 

@@ -144,7 +144,7 @@
                             android:textColor="@color/black"
                             android:layout_weight=".5"
                             android:layout_gravity="top"
-                            android:text='@{(model.total!=null?model.total:"0.00")+" "+@string/sar}'
+                            android:text='@{(model.total!=null?model.total:("0.00"))}'
                             />
 
 
@@ -206,7 +206,7 @@
                             android:layout_weight=".5"
                             android:layout_gravity="top"
                             android:textStyle="bold"
-                            android:text='@{(model.total!=null?model.total:"0.00")+" "+@string/sar}'
+                            android:text='@{(model.total!=null?model.total:("0.00"))}'
 
 
                             />

@@ -22,6 +22,7 @@ import com.app.yalahwy.R;
 import com.app.yalahwy.adapters.HomeCategoriesAdapter;
 import com.app.yalahwy.adapters.OfferProductAdapter;
 import com.app.yalahwy.adapters.ProductAdapter;
+import com.app.yalahwy.adapters.ProductAdapter3;
 import com.app.yalahwy.adapters.SliderAdapter;
 import com.app.yalahwy.databinding.FragmentHomeBinding;
 
@@ -47,7 +48,8 @@ public class Fragment_Home extends Fragment implements FragmentHomeView {
     private HomeActivity activity;
     private FragmentHomePresenter presenter;
     private SliderAdapter sliderAdapter;
-    private ProductAdapter featuredProductAdapter,mostSellerAdapter,otherProductAdapter;
+    private ProductAdapter featuredProductAdapter,mostSellerAdapter;
+    private ProductAdapter3 otherProductAdapter;
     private OfferProductAdapter offerProductAdapter;
     private List<ProductModel> featuredProductList,mostSellerProductList,offerProductList,otherProductList;
     private HomeCategoriesAdapter categoriesAdapter;
@@ -113,7 +115,7 @@ public class Fragment_Home extends Fragment implements FragmentHomeView {
         binding.recViewOffer.setAdapter(offerProductAdapter);
 
 
-        otherProductAdapter = new ProductAdapter(otherProductList, activity,this,"4", lang);
+        otherProductAdapter = new ProductAdapter3(otherProductList, activity,this,"4", lang);
         binding.recViewOtherProducts.setLayoutManager(new GridLayoutManager(activity,2));
         binding.recViewOtherProducts.setAdapter(otherProductAdapter);
 

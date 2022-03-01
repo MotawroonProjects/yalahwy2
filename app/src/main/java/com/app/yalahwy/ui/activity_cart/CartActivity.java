@@ -141,9 +141,9 @@ public class CartActivity extends AppCompatActivity implements CartActivityView 
 
     @Override
     public void onCostUpdate(double totalItemCost, double discount, double totalCost) {
-        binding.tvTotalItemCost.setText(String.format(Locale.ENGLISH,"%.2f %s",totalItemCost,getString(R.string.sar)));
-        binding.tvDiscount.setText(String.format(Locale.ENGLISH,"%.2f %s",discount,getString(R.string.sar)));
-        binding.tvTotal.setText(String.format(Locale.ENGLISH,"%.2f %s",totalCost,getString(R.string.sar)));
+        binding.tvTotalItemCost.setText(String.format(Locale.ENGLISH,"%.2f",totalItemCost));
+        binding.tvDiscount.setText(String.format(Locale.ENGLISH,"%.2f",discount));
+        binding.tvTotal.setText(String.format(Locale.ENGLISH,"%.2f",totalCost));
 
     }
 
@@ -158,7 +158,7 @@ public class CartActivity extends AppCompatActivity implements CartActivityView 
             binding.tvCouponDiscount.setText(String.format(Locale.ENGLISH,"%s %s %s",getString(R.string.you_got_discount),couponModel.getPrice(),"%"));
 
         }else {
-            binding.tvCouponDiscount.setText(String.format(Locale.ENGLISH,"%s %s %s",getString(R.string.you_got_discount),couponModel.getPrice(),getString(R.string.sar)));
+            binding.tvCouponDiscount.setText(String.format(Locale.ENGLISH,"%s %s",getString(R.string.you_got_discount),couponModel.getPrice()));
 
         }
     }
@@ -173,7 +173,7 @@ public class CartActivity extends AppCompatActivity implements CartActivityView 
         if (cost>0){
             binding.viewDelivery.setVisibility(View.VISIBLE);
             binding.llDelivery.setVisibility(View.VISIBLE);
-            binding.tvDelivery.setText(String.format(Locale.ENGLISH,"%.2f %s",cost,getString(R.string.sar)));
+            binding.tvDelivery.setText(String.format(Locale.ENGLISH,"%.2f",cost));
 
         }else {
             binding.viewDelivery.setVisibility(View.GONE);
@@ -189,7 +189,7 @@ public class CartActivity extends AppCompatActivity implements CartActivityView 
 
             binding.viewPackaging.setVisibility(View.VISIBLE);
             binding.llPackaging.setVisibility(View.VISIBLE);
-            binding.tvPackaging.setText(String.format(Locale.ENGLISH,"%.2f %s",cost,getString(R.string.sar)));
+            binding.tvPackaging.setText(String.format(Locale.ENGLISH,"%.2f",cost));
 
         }else {
             binding.viewPackaging.setVisibility(View.GONE);
