@@ -76,43 +76,54 @@ public interface Service {
     Call<AllCategoryModel> getCategory(@Query("lang") String lang);
 
     @GET("api/front/products")
-    Call<ProductDataModel> getFeatureProducts(@Query("highlight") String highlight);
+    Call<ProductDataModel> getFeatureProducts(@Query("highlight") String highlight,
+                                              @Query("lang") String lang);
 
 
     @GET("api/front/products")
-    Call<ProductDataModel> getMostSellerProducts(@Query("highlight") String highlight);
+    Call<ProductDataModel> getMostSellerProducts(@Query("highlight") String highlight,
+                                                 @Query("lang") String lang);
 
     @GET("api/front/products")
-    Call<ProductDataModel> getOtherProducts(@Query("highlight") String highlight);
+    Call<ProductDataModel> getOtherProducts(@Query("highlight") String highlight,
+                                            @Query("lang") String lang
+                                            );
 
     @GET("api/front/products")
-    Call<ProductDataModel> getOfferProducts(@Query("highlight") String highlight);
+    Call<ProductDataModel> getOfferProducts(@Query("highlight") String highlight,
+                                            @Query("lang") String lang
+                                            );
 
     @GET("api/user/sub-with-child")
     Call<SubCategoryDataModel> getSubCategoryByCategoryId(@Query("category_id") int category_id);
 
     @GET("api/user/get-product-by-name")
     Call<ProductDataModel> search(@Query("user_id") String user_id,
-                                  @Query("search_name") String search_name
+                                  @Query("search_name") String search_name,
+                                  @Query("lang") String lang
     );
 
     @GET("api/user/get-product-by-name")
     Call<ProductDataModel> getProducts(@Query("user_id") String user_id,
                                        @Query("category_id") String category_id,
                                        @Query("category_id") String subcategory_id,
-                                       @Query("childcategory_id") String childcategory_id
+                                       @Query("childcategory_id") String childcategory_id,
+                                       @Query("lang") String lang
 
     );
 
     @GET("api/user/get-product-and-sup")
     Call<ProductDataModel2> getProductsBySubCategory(@Query("sub_id") int sub_id,
-                                                     @Query("user_id") String user_id
+                                                     @Query("user_id") String user_id,
+                                                     @Query("lang") String lang
 
 
     );
 
     @GET("api/front/product/{id}/details")
-    Call<SingleProductDataModel> getProductById(@Path("id") String id);
+    Call<SingleProductDataModel> getProductById(@Path("id") String id,
+                                                @Query("lang") String lang
+                                                );
 
     @FormUrlEncoded
     @POST("api/user/action-wishlists")
@@ -123,7 +134,8 @@ public interface Service {
 
     @GET("api/user/my-wishlists")
     Call<ProductDataModel> getMyFavorite(@Header("Authorization") String token,
-                                         @Query("user_id") String user_id
+                                         @Query("user_id") String user_id,
+                                         @Query("lang") String lang
     );
 
     @GET("api/user/my-address")
@@ -272,7 +284,8 @@ public interface Service {
 
     @GET("api/user/products-by-key")
     Call<ProductDataModel> getProductsBytype(
-                                             @Query("user_id") String user_id
+                                             @Query("user_id") String user_id,
+                                             @Query("lang") String lang
 
 
     );

@@ -151,14 +151,20 @@ public class FragmentHomePresenter {
                 });
     }
 
-    public void getFeaturedProducts() {
+    public void getFeaturedProducts(String lang) {
         String user_id = "all";
+        String type;
+        if (lang.equals("ar")) {
+            type = "2";
+        } else {
+            type = "1";
+        }
         if (userModel != null) {
             user_id = String.valueOf(userModel.getData().getUser().getId());
         }
         view.onProgressFeaturedProductsShow();
         Api.getService(Tags.base_url)
-                .getFeatureProducts("featured")
+                .getFeatureProducts("featured",type)
                 .enqueue(new Callback<ProductDataModel>() {
                     @Override
                     public void onResponse(Call<ProductDataModel> call, Response<ProductDataModel> response) {
@@ -209,14 +215,20 @@ public class FragmentHomePresenter {
                 });
     }
 
-    public void getMostSellerProducts() {
-        String user_id = "all";
+    public void getMostSellerProducts(String lang) {
+
+        String user_id = "all",type;
+        if (lang.equals("ar")) {
+            type = "2";
+        } else {
+            type = "1";
+        }
         if (userModel != null) {
             user_id = String.valueOf(userModel.getData().getUser().getId());
         }
         view.onProgressMostSellerShow();
         Api.getService(Tags.base_url)
-                .getMostSellerProducts("best")
+                .getMostSellerProducts("best",type)
                 .enqueue(new Callback<ProductDataModel>() {
                     @Override
                     public void onResponse(Call<ProductDataModel> call, Response<ProductDataModel> response) {
@@ -270,12 +282,18 @@ public class FragmentHomePresenter {
 
     public void getOtherProducts() {
         String user_id = "all";
+        String type;
+        if (lang.equals("ar")) {
+            type = "2";
+        } else {
+            type = "1";
+        }
         if (userModel != null) {
             user_id = String.valueOf(userModel.getData().getUser().getId());
         }
         view.onProgressOtherProductsShow();
         Api.getService(Tags.base_url)
-                .getOtherProducts("")
+                .getOtherProducts("",type)
                 .enqueue(new Callback<ProductDataModel>() {
                     @Override
                     public void onResponse(Call<ProductDataModel> call, Response<ProductDataModel> response) {
@@ -343,7 +361,7 @@ public class FragmentHomePresenter {
         }
         view.onProgressOfferShow();
         Api.getService(Tags.base_url)
-                .getOfferProducts("is_discount")
+                .getOfferProducts("is_discount",type)
                 .enqueue(new Callback<ProductDataModel>() {
                     @Override
                     public void onResponse(Call<ProductDataModel> call, Response<ProductDataModel> response) {

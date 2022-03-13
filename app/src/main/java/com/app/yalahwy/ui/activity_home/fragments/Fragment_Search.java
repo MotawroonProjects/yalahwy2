@@ -72,7 +72,7 @@ public class Fragment_Search extends Fragment implements FragmentSearchView {
             if (i== EditorInfo.IME_ACTION_SEARCH){
                 String query = binding.edtSearch.getText().toString();
                 if (!query.isEmpty()){
-                    presenter.getSearch(query);
+                    presenter.getSearch(query,lang);
                 }
             }
 
@@ -98,7 +98,7 @@ public class Fragment_Search extends Fragment implements FragmentSearchView {
                     searchAdapter.notifyDataSetChanged();
                 }else {
 
-                    presenter.getSearch(editable.toString());
+                    presenter.getSearch(editable.toString(),lang);
 
                 }
             }

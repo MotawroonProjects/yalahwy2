@@ -78,7 +78,7 @@ public class ActivityProductDetailsPresenter {
         }
         view.onProgressShow();
         Api.getService(Tags.base_url)
-                .getProductById( product_id)
+                .getProductById( product_id,type)
                 .enqueue(new Callback<SingleProductDataModel>() {
                     @Override
                     public void onResponse(Call<SingleProductDataModel> call, Response<SingleProductDataModel> response) {

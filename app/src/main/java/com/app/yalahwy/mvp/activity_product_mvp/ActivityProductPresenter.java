@@ -39,29 +39,29 @@ public class ActivityProductPresenter {
     String category_id = "all", subCategory_id = "all", child_id = "all";
     private List<CartDataModel.CartModel> cartModelList;
     private CartDataModel cartDataModel;
+
     public ActivityProductPresenter(Context context, ActivityProductView view) {
         this.context = context;
         this.view = view;
         preference = Preferences.getInstance();
         userModel = preference.getUserData(context);
-        if(userModel!=null){
-            user_id=userModel.getData().getUser().getId()+"";
-        }
-        else {
-            user_id="all";
+        if (userModel != null) {
+            user_id = userModel.getData().getUser().getId() + "";
+        } else {
+            user_id = "all";
         }
         cartDataModel = preference.getCartData(context);
 
-        if (cartDataModel==null){
+        if (cartDataModel == null) {
 
             cartModelList = new ArrayList<>();
             cartDataModel = new CartDataModel();
             cartDataModel.setCartModelList(cartModelList);
-        }else {
-            if (cartDataModel.getCartModelList()==null){
+        } else {
+            if (cartDataModel.getCartModelList() == null) {
                 cartModelList = new ArrayList<>();
 
-            }else {
+            } else {
                 cartModelList = cartDataModel.getCartModelList();
 
             }
@@ -70,11 +70,17 @@ public class ActivityProductPresenter {
     }
 
 
-    public void getProducts(int subCategory_id) {
+    public void getProducts(int subCategory_id, String lang) {
         Log.e("sub_id", subCategory_id + "_");
+        String type;
+        if (lang.equals("ar")) {
+            type = "2";
+        } else {
+            type = "1";
+        }
         view.onProgressShow();
         Api.getService(Tags.base_url)
-                .getProductsBySubCategory(subCategory_id,user_id)
+                .getProductsBySubCategory(subCategory_id, user_id, type)
                 .enqueue(new Callback<ProductDataModel2>() {
                     @Override
                     public void onResponse(Call<ProductDataModel2> call, Response<ProductDataModel2> response) {
@@ -130,11 +136,18 @@ public class ActivityProductPresenter {
                     }
                 });
     }
-    public void getProductsbytype() {
+
+    public void getProductsbytype(String lang) {
         Log.e("sub_id", subCategory_id + "_");
+        String type;
+        if (lang.equals("ar")) {
+            type = "2";
+        } else {
+            type = "1";
+        }
         view.onProgressShow();
         Api.getService(Tags.base_url)
-                .getProductsBytype(user_id)
+                .getProductsBytype(user_id, type)
                 .enqueue(new Callback<ProductDataModel>() {
                     @Override
                     public void onResponse(Call<ProductDataModel> call, Response<ProductDataModel> response) {
@@ -191,20 +204,26 @@ public class ActivityProductPresenter {
                 });
     }
 
-    public void getSearch(String query) {
+    public void getSearch(String query, String lang) {
         String user_id = "all";
         if (userModel != null) {
             user_id = String.valueOf(userModel.getData().getUser().getId());
         }
+        String type;
+        if (lang.equals("ar")) {
+            type = "2";
+        } else {
+            type = "1";
+        }
         view.onProgressShow();
         Api.getService(Tags.base_url)
-                .search(user_id, query)
+                .search(user_id, query, type)
                 .enqueue(new Callback<ProductDataModel>() {
                     @Override
                     public void onResponse(Call<ProductDataModel> call, Response<ProductDataModel> response) {
                         view.onProgressHide();
                         if (response.isSuccessful()) {
-                            if (response.body() != null&& response.body().getData() != null) {
+                            if (response.body() != null && response.body().getData() != null) {
                                 view.onSuccess(response.body().getData().getData());
 
                             }
@@ -251,26 +270,25 @@ public class ActivityProductPresenter {
                 });
     }
 
-    public void add_to_menu(ProductModel productModel, int amount)
-    {
+    public void add_to_menu(ProductModel productModel, int amount) {
         if (userModel == null) {
             return;
         }
-        ProgressDialog dialog = Common.createProgressDialog(context,context.getString(R.string.wait));
+        ProgressDialog dialog = Common.createProgressDialog(context, context.getString(R.string.wait));
         dialog.setCancelable(false);
         dialog.setCanceledOnTouchOutside(false);
         dialog.show();
         String user_id = String.valueOf(userModel.getData().getUser().getId());
         Api.getService(Tags.base_url)
-                .addToMenu(userModel.getData().getToken(),user_id, String.valueOf(productModel.getId()),"no",amount)
+                .addToMenu(userModel.getData().getToken(), user_id, String.valueOf(productModel.getId()), "no", amount)
                 .enqueue(new Callback<LogoutModel>() {
                     @Override
                     public void onResponse(Call<LogoutModel> call, Response<LogoutModel> response) {
                         dialog.dismiss();
                         if (response.isSuccessful()) {
-                            if (response.body() != null&&response.body().getStatus()==200) {
+                            if (response.body() != null && response.body().getStatus() == 200) {
                                 view.onAddToMenuSuccess();
-                            }else {
+                            } else {
                                 view.onFailed(context.getString(R.string.failed));
 
                             }
@@ -316,20 +334,19 @@ public class ActivityProductPresenter {
                 });
     }
 
-    public void add_to_cart(ProductModel productModel,int amount)
-    {
+    public void add_to_cart(ProductModel productModel, int amount) {
         int pos = isProductItemSelected(productModel);
 
-        if (pos==-1){
+        if (pos == -1) {
 
-            CartDataModel.CartModel cartModel = new CartDataModel.CartModel(String.valueOf(productModel.getId()),productModel.getThumbnail(),productModel.getTitle(),amount,productModel.getCurrent_price());
+            CartDataModel.CartModel cartModel = new CartDataModel.CartModel(String.valueOf(productModel.getId()), productModel.getThumbnail(), productModel.getTitle(), amount, productModel.getCurrent_price());
             cartModelList.add(cartModel);
-        }else {
+        } else {
             CartDataModel.CartModel cartModel = cartModelList.get(pos);
             cartModel.setAmount(amount);
-            cartModelList.set(pos,cartModel);
+            cartModelList.set(pos, cartModel);
         }
-        if (cartDataModel==null){
+        if (cartDataModel == null) {
             cartDataModel = new CartDataModel();
         }
 
@@ -337,28 +354,28 @@ public class ActivityProductPresenter {
 
         calculateTotalCost();
     }
+
     private void calculateTotalCost() {
-        double total =0.0;
-        for (CartDataModel.CartModel cartModel:cartModelList){
-            total += cartModel.getAmount()*cartModel.getCost();
+        double total = 0.0;
+        for (CartDataModel.CartModel cartModel : cartModelList) {
+            total += cartModel.getAmount() * cartModel.getCost();
         }
         cartDataModel.setTotal(total);
-        preference.createUpdateCartData(context,cartDataModel);
-        view.onCartUpdated(total,cartModelList.size(),cartModelList);
+        preference.createUpdateCartData(context, cartDataModel);
+        view.onCartUpdated(total, cartModelList.size(), cartModelList);
     }
 
 
-    public int isProductItemSelected(ProductModel productModel){
+    public int isProductItemSelected(ProductModel productModel) {
 
         int pos = -1;
 
         cartDataModel = preference.getCartData(context);
-        if (cartDataModel!=null&&cartDataModel.getCartModelList()!=null)
-        {
+        if (cartDataModel != null && cartDataModel.getCartModelList() != null) {
             cartModelList = cartDataModel.getCartModelList();
-            for (int index =0;index<cartModelList.size();index++){
+            for (int index = 0; index < cartModelList.size(); index++) {
                 CartDataModel.CartModel cartModel = cartModelList.get(index);
-                if (String.valueOf(productModel.getId()).equals(cartModel.getId())){
+                if (String.valueOf(productModel.getId()).equals(cartModel.getId())) {
                     pos = index;
                     return pos;
                 }
@@ -369,38 +386,38 @@ public class ActivityProductPresenter {
         return pos;
     }
 
-    public void getCartCount(){
-        if (cartDataModel!=null&&cartDataModel.getCartModelList()!=null){
+    public void getCartCount() {
+        if (cartDataModel != null && cartDataModel.getCartModelList() != null) {
             view.onCartCountUpdated(cartDataModel.getCartModelList().size());
 
-        }else {
+        } else {
             view.onCartCountUpdated(0);
 
         }
     }
 
-    public void getItemAmount(ProductModel productModel){
+    public void getItemAmount(ProductModel productModel) {
         int pos = isProductItemSelected(productModel);
-        if (pos==-1){
+        if (pos == -1) {
             view.onAmountSelectedFromCart(1);
-        }else {
+        } else {
             view.onAmountSelectedFromCart(cartDataModel.getCartModelList().get(pos).getAmount());
         }
 
     }
-    public void remove_favorite(ProductModel productModel)
-    {
 
-        if (userModel==null){
+    public void remove_favorite(ProductModel productModel) {
+
+        if (userModel == null) {
             return;
         }
-        ProgressDialog dialog = Common.createProgressDialog(context,context.getString(R.string.wait));
+        ProgressDialog dialog = Common.createProgressDialog(context, context.getString(R.string.wait));
         dialog.setCancelable(false);
         dialog.setCanceledOnTouchOutside(false);
         dialog.show();
         String user_id = String.valueOf(userModel.getData().getUser().getId());
         Api.getService(Tags.base_url)
-                .add_remove_favorite(userModel.getData().getToken(),user_id, String.valueOf(productModel.getId()))
+                .add_remove_favorite(userModel.getData().getToken(), user_id, String.valueOf(productModel.getId()))
                 .enqueue(new Callback<AddFavoriteDataModel>() {
                     @Override
                     public void onResponse(Call<AddFavoriteDataModel> call, Response<AddFavoriteDataModel> response) {
@@ -449,8 +466,8 @@ public class ActivityProductPresenter {
                     }
                 });
     }
-    public void add_remove_favorite(ProductModel productModel, int position, String type)
-    {
+
+    public void add_remove_favorite(ProductModel productModel, int position, String type) {
         //Log.e("hdhhdh",productModel.getName());
 //        if (userModel == null) {
 //            if (productModel.getIs_wishlist()!=null){
@@ -463,15 +480,15 @@ public class ActivityProductPresenter {
 //        }
         String user_id = String.valueOf(userModel.getData().getUser().getId());
         Api.getService(Tags.base_url)
-                .add_remove_favorite(userModel.getData().getToken(),user_id, String.valueOf(productModel.getId()))
+                .add_remove_favorite(userModel.getData().getToken(), user_id, String.valueOf(productModel.getId()))
                 .enqueue(new Callback<AddFavoriteDataModel>() {
                     @Override
                     public void onResponse(Call<AddFavoriteDataModel> call, Response<AddFavoriteDataModel> response) {
-                        Log.e("lkkdkdk",response.code()+"");
+                        Log.e("lkkdkdk", response.code() + "");
                         if (response.isSuccessful()) {
                             if (response.body() != null) {
-                               // productModel.setIs_wishlist(response.body().getData());
-                                view.onFavoriteActionSuccess(productModel,position,type);
+                                // productModel.setIs_wishlist(response.body().getData());
+                                view.onFavoriteActionSuccess(productModel, position, type);
                             }
 
 
@@ -488,7 +505,7 @@ public class ActivityProductPresenter {
 //                            }else {
 //                                productModel.setIs_wishlist(new ProductModel.IsWishList());
 //                            }
-                            view.onFavoriteActionSuccess(productModel,position,type);
+                            view.onFavoriteActionSuccess(productModel, position, type);
 
                             if (response.code() == 500) {
                                 Toast.makeText(context, "Server Error", Toast.LENGTH_SHORT).show();
@@ -507,7 +524,7 @@ public class ActivityProductPresenter {
 //                            }else {
 //                                productModel.setIs_wishlist(new ProductModel.IsWishList());
 //                            }
-                            view.onFavoriteActionSuccess(productModel,position,type);
+                            view.onFavoriteActionSuccess(productModel, position, type);
                             if (t.getMessage() != null) {
                                 Log.e("error_not_code", t.getMessage() + "__");
 
@@ -524,5 +541,5 @@ public class ActivityProductPresenter {
                     }
                 });
     }
-    
+
 }

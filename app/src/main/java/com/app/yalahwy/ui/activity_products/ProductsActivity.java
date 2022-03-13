@@ -83,10 +83,10 @@ public class ProductsActivity extends AppCompatActivity implements ActivityProdu
 
         presenter= new ActivityProductPresenter(this,this);
         if(subCategoryModel!=null) {
-            presenter.getProducts(subCategoryModel.getId());
+            presenter.getProducts(subCategoryModel.getId(),lang);
         }
         else {
-            presenter.getProductsbytype();}
+            presenter.getProductsbytype(lang);}
         binding.imageBack.setOnClickListener(view -> finish());
 
     }

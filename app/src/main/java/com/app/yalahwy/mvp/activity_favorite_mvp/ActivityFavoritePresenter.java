@@ -38,14 +38,20 @@ public class ActivityFavoritePresenter {
     }
 
 
-    public void getProducts() {
+    public void getProducts(String lang) {
         if (userModel == null) {
             return;
+        }
+        String type;
+        if (lang.equals("ar")) {
+            type = "2";
+        } else {
+            type = "1";
         }
         String user_id = String.valueOf(userModel.getData().getUser().getId());
         view.onProgressShow();
         Api.getService(Tags.base_url)
-                .getMyFavorite(userModel.getData().getToken(),user_id)
+                .getMyFavorite(userModel.getData().getToken(),user_id,type)
                 .enqueue(new Callback<ProductDataModel>() {
                     @Override
                     public void onResponse(Call<ProductDataModel> call, Response<ProductDataModel> response) {

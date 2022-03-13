@@ -78,7 +78,7 @@ public class SearchActivity extends AppCompatActivity implements ActivityProduct
             if (i== EditorInfo.IME_ACTION_SEARCH){
                 String query = binding.edtSearch.getText().toString();
                 if (!query.isEmpty()){
-                    presenter.getSearch(query);
+                    presenter.getSearch(query,lang);
                 }
             }
 
@@ -104,7 +104,7 @@ public class SearchActivity extends AppCompatActivity implements ActivityProduct
                     productAdapter.notifyDataSetChanged();
                 }else {
 
-                    presenter.getSearch(editable.toString());
+                    presenter.getSearch(editable.toString(),lang);
 
                 }
             }

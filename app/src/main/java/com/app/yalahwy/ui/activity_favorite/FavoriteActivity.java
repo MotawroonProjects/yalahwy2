@@ -66,7 +66,7 @@ public class FavoriteActivity extends AppCompatActivity implements ActivityFavor
         adapter = new FavoriteProductAdapter(productModelList,this);
         binding.recView.setAdapter(adapter);
         presenter = new ActivityFavoritePresenter(this,this);
-        presenter.getProducts();
+        presenter.getProducts(lang);
         binding.llBack.setOnClickListener(view -> onBackPressed());
 
 

@@ -39,14 +39,20 @@ public class FragmentSearchPresenter {
     }
 
 
-    public void getSearch(String query) {
+    public void getSearch(String query,String lang) {
         String user_id = "all";
+        String type;
+        if (lang.equals("ar")) {
+            type = "2";
+        } else {
+            type = "1";
+        }
         if (userModel != null) {
             user_id = String.valueOf(userModel.getData().getUser().getId());
         }
         //view.onProgressShow();
         Api.getService(Tags.base_url)
-                .search(user_id, query)
+                .search(user_id, query,type)
                 .enqueue(new Callback<ProductDataModel>() {
                     @Override
                     public void onResponse(Call<ProductDataModel> call, Response<ProductDataModel> response) {

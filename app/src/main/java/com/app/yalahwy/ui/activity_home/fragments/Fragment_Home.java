@@ -254,8 +254,8 @@ public class Fragment_Home extends Fragment implements FragmentHomeView {
         presenter = new FragmentHomePresenter(activity,this,lat,lng);
         presenter.getSlider();
         presenter.getCategory();
-        presenter.getFeaturedProducts();
-        presenter.getMostSellerProducts();
+        presenter.getFeaturedProducts(lang);
+        presenter.getMostSellerProducts(lang);
         presenter.getOfferProducts();
         presenter.getOtherProducts();
 
@@ -510,8 +510,8 @@ public class Fragment_Home extends Fragment implements FragmentHomeView {
 
     public void refreshData() {
         presenter.getOfferProducts();
-        presenter.getMostSellerProducts();
-        presenter.getFeaturedProducts();
+        presenter.getMostSellerProducts(lang);
+        presenter.getFeaturedProducts(lang);
     }
 
 
